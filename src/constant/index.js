@@ -11,4 +11,4 @@
 export const CURRENCY_NAMES = ["BTC", "ETH", "XRP"];
 export const USD_VALUE = 20;
 export const API_GEKCO = 'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=bitcoin,ethereum,ripple';
-export const API_CRYPTO_COMPARE = 'https://min-api.cryptocompare.com/data/pricemulti?fsyms=BTC,ETH,XRP&tsyms=USD&api_key=f954257900400565c67a28f4bd929327734808584d03733cdcf4ced1a91b08c1';
+export const API_CRYPTO_COMPARE = 'https://min-api.cryptocompare.com/data/pricemulti?fsyms=BTC,ETH,XRP&tsyms=USD';
