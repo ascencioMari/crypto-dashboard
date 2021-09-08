@@ -22,37 +22,43 @@ function convertUSDtoMXM(num) {
 
 //Get crypto coin values
 async function allPromises(now) {
+  try{
+    //Call both services at the same time to avoid latency
+    const allPromises = await Promise.all([
+      fetch(API_GEKCO),
+      fetch(API_CRYPTO_COMPARE)
+    ]);
 
-  //Call both services at the same time to avoid latency
-  const allPromises = await Promise.all([
-    fetch(API_GEKCO),
-    fetch(API_CRYPTO_COMPARE)
-  ]);
+    //Get data from response services
+    const allData = await Promise.all([
+      allPromises[0].json(),
+      allPromises[1].json()
+    ]);
 
-  //Get data from response services
-  const allData = await Promise.all([
-    allPromises[0].json(),
-    allPromises[1].json()
-  ]);
-
-  return {
-    coingecko: {
-      BTC: convertUSDtoMXM(allData[0][0].current_price),
-      ETH: convertUSDtoMXM(allData[0][1].current_price),
-      XRP: convertUSDtoMXM(allData[0][2].current_price)
-    },
-    cryptocompare: {
-      BTC: convertUSDtoMXM(allData[1].BTC.USD),
-      ETH: convertUSDtoMXM(allData[1].ETH.USD),
-      XRP: convertUSDtoMXM(allData[1].XRP.USD)
-    },
-    date: now
+    return {
+      coingecko: {
+        BTC: convertUSDtoMXM(allData[0][0].current_price),
+        ETH: convertUSDtoMXM(allData[0][1].current_price),
+        XRP: convertUSDtoMXM(allData[0][2].current_price)
+      },
+      cryptocompare: {
+        BTC: convertUSDtoMXM(allData[1].BTC.USD),
+        ETH: convertUSDtoMXM(allData[1].ETH.USD),
+        XRP: convertUSDtoMXM(allData[1].XRP.USD)
+      },
+      date: now
+    }
+  } catch(error){
+    console.log(error);
+    return false;
   }
+  
 }
 
 export const Tabs = () => {
   //Init date state with current date 
   const [date, setDate] = useState(Date.now());
+  const [error,setError] = useState(false);
 
   //Init active tab state with BTC value
   const [activeTab, setActiveTab] = useState("BTC");
@@ -67,14 +73,23 @@ export const Tabs = () => {
         const now = Date.now();
         const fetchAPIs = allPromises(now);
         fetchAPIs.then(data => {
-          crypto.update(crypto.values, data);
-          setDate(now);
+          if(data){
+            setError(false);
+            crypto.update(crypto.values, data);
+            setDate(now);
+          } else {
+            setError(true);
+          }
         });
       },
       5000
     );
     return () => clearTimeout(timer);
   }, [date]);
+
+  if(error){
+    return <div>Service not available</div>
+  }
 
   if(!crypto.values.length) {
     return <div>Loading...</div>
