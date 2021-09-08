@@ -1,0 +1,61 @@
+:root {
+    --secondary-lighter: #f8f8f8;
+    --secondary-light: #dadce0;
+    --secondary: #1e2a35;
+    --primary: #02b1ec;
+    --primary-dark: #049bcd;
+}
+
+body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+        "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+        sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background-color: var(--secondary-lighter);
+    color: var(--secondary);
+}
+
+code {
+    font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+        monospace;
+}
+
+input:not([type="radius"]) {
+    background-color: #fff;
+    color: var(--secondary);
+    border: 1px solid var(--secondary);
+    padding: 0.5rem 1rem;
+    border-radius: 0.25rem;
+    border: 1px solid var(--secondary-light);
+}
+
+button {
+    background-color: transparent;
+    padding: 0.5rem 1rem;
+    border-radius: 0.25rem;
+    border: 1px solid transparent;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+button:hover {
+    background-color: var(--secondary-light);
+    border: 1px solid var(--secondary-light);
+}
+
+button.primary {
+    background-color: var(--primary);
+    border: 1px solid var(--primary);
+    color: var(--secondary-lighter);
+}
+
+button.primary:hover {
+    border: 1px solid var(--primary-dark);
+}
+
+#root {
+    height: 100vh;
+}
