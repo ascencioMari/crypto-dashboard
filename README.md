@@ -14,4 +14,5 @@ The static values are in "constant" folder.
 In order to start the app, runs the next commands:
 
 npm i
+
 npm start
